@@ -1,8 +1,27 @@
 {
+  "name": "mikejw/elib-acl",
+  "type": "library",
+  "description": "ACL extension using laminas/laminas-permissions-acl",
+  "keywords": [
+    "lib"
+  ],
+  "homepage": "http://empathyphp.co.uk",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mike Whiting",
+      "email": "mikejw3@gmail.com"
+    }
+  ],
   "require": {
     "mikejw/elib-base": "dev-master",
     "laminas/laminas-permissions-acl": "2.10.x",
     "doctrine/annotations": "1.14.x-dev"
+  },
+  "autoload": {
+    "psr-0": {
+      "Empathy": "src/"
+    }
   },
   "minimum-stability": "dev"
 }
