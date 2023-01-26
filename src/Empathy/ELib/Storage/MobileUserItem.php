@@ -1,6 +1,6 @@
 <?php
 
-namespace Empathy\ELib\Model;
+namespace Empathy\ELib\Storage;
 use Empathy\MVC\Entity;
 use Empathy\ELib\Model;
 use Empathy\MVC\Validate;
