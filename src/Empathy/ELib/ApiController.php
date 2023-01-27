@@ -17,7 +17,6 @@ class ApiController extends BaseApiController implements ResourceInterface
         DI::getContainer()->get('CurrentUser')->apiLogin();
     }
 
-
     public function signup()
     {
        DI::getContainer()->get('CurrentUser')->apiSignup();

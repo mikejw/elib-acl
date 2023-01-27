@@ -6,7 +6,7 @@ use Empathy\ELib\Model;
 
 class Role extends Entity
 {
-	const TABLE = 'role';
+    const TABLE = 'role';
 
     public $id;
     public $name;
@@ -14,8 +14,8 @@ class Role extends Entity
     public function getIdByName($name)
     {
         $id = 0;
-        $sql = 'select id from '.Model::getTable('Role').' t1'
-            ." where name = '$name'";
+        $sql = 'select id from ' . Model::getTable('Role') . ' t1'
+            . " where name = '$name'";
 
         $error = "Could not get role by name.";
         $result = $this->query($sql, $error)->fetch();
