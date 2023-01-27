@@ -11,18 +11,39 @@ use Empathy\ELib\Storage\UserItem;
 class MobileUserItem extends UserItem
 {
     const REG_LENGTH = 4;
-
+    
+    
     public function getInactiveByEmail($email, $reg)
     {
-        if (strlen($reg) !== self::REG_LENGTH) {
-            return 0;
+        $user_id = 0;
+        $sql = 'SELECT id FROM '.Model::getTable('MobileUserItem')
+            .' WHERE (email = \''.$email.'\' and reg_code like \''.$reg.'%\')'
+            .' AND active = 0';
+        $error = "Could not inactive user by email.";
+        $result = $this->query($sql, $error);
+        $rows = $result->rowCount();
+        if ($rows == 1) {
+            $row = $result->fetch();
+            $user_id = $row['id'];
         }
-        $user = \R::findOne(
-            'user',
-            ' email = ? and active = ? and reg_code like ? ',
-            array($email, 0, "$reg%")
-        );
-        return $user->id ?? 0;
+        
+        return $user_id ?? 0;
+    }
+
+    public function getUserByUsername($username)
+    {
+        $user_id = 0;
+        $sql = 'SELECT id FROM '.Model::getTable('MobileUserItem')
+            .' WHERE (username = \''.$username.'\' and active = 1)';
+        $error = "Could not get user by username.";
+        $result = $this->query($sql, $error);
+        $rows = $result->rowCount();
+        if ($rows == 1) {
+            $row = $result->fetch();
+            $user_id = $row['id'];
+        }
+
+        return $user_id ?? 0;
     }
 
     public function validates($email_check=true)
@@ -51,5 +72,15 @@ class MobileUserItem extends UserItem
             'Password not strong. Include uppercase and lowercase letters,'
                 .' numbers and special characters'
         );
+    }
+    
+    public function validateConfirmReg()
+    {
+        $this->doValType(Validate::EMAIL, 'email', $this->email, false);
+        if ($this->doValType(Validate::ALNUM, 'reg_code', $this->reg_code, false)) {
+            if (strlen($this->reg_code) !== self::REG_LENGTH) {
+                $this->addValError('Invalid code', 'reg');
+            }
+        }
     }
 }

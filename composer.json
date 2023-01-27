@@ -17,7 +17,7 @@
     "mikejw/elib-base": "dev-master",
     "laminas/laminas-permissions-acl": "2.10.x",
     "doctrine/annotations": "1.14.x-dev",
-    "gabordemooij/redbean": "dev-master"
+    "mikejw/elib-jwt": "dev-master"
   },
   "autoload": {
     "psr-0": {
