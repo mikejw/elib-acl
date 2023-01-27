@@ -1,13 +1,8 @@
 <?php
 
 namespace Empathy\ELib;
-
-use Empathy\MVC\Plugin\JSONView\ROb;
-use Empathy\MVC\Plugin\JSONView\EROb;
-use Empathy\MVC\Plugin\JSONView\ReturnCodes;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Empathy\MVC\DI;
-use Empathy\MVC\RequestException;
 
 
 class ApiController extends BaseApiController implements ResourceInterface
@@ -16,7 +11,6 @@ class ApiController extends BaseApiController implements ResourceInterface
     {
         $this->assign('default', [1, 2, 3, 4, 5], true);
     }
-
 
     public function login()
     {
@@ -33,7 +27,6 @@ class ApiController extends BaseApiController implements ResourceInterface
     {
         DI::getContainer()->get('CurrentUser')->apiConfirmSignup();
     }
-
 
     public function getResourceId()
     {
