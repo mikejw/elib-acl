@@ -41,6 +41,7 @@ Don't forget to put he `USE` statement at the top of the file:
 Complete the rest of the steps the elib-base getting started doc.
 
 
+More info coming soon!
 
 
 
