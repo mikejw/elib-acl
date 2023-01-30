@@ -16,7 +16,7 @@ Hower use the following `composer.json` configuration:
 
     {
         "require": {
-           "mikejw/elib-acl": "dev-main",
+           "mikejw/elib-acl": "dev-main"
         },
         "minimum-stability": "dev"
     }
