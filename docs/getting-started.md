@@ -111,7 +111,7 @@ Create an arbitrary secret in `elib.yml` used for JWT encyption/decyption:
 
 (Optional) Force vanilla validation for login
 ---
-The user controller for login can use the default user model for validation instead of the new one provided by ELib-ACL.  
+The user controller for login (at the "/user/login" route) can use the default user model for validation instead of the new one provided by ELib-ACL.  
 This means usernames can be used to log into the site backend admin area instead of having to provide an email address.
 
 Do so by overwriting `application/user/user.php` with:
@@ -127,6 +127,33 @@ Do so by overwriting `application/user/user.php` with:
             parent::login();
         }    
     }
+
+
+Secure admin module with admin role
+---
+We need to tell the user service to secure `application/admin/admin.php` with the admin role.  This is achieved by overwriting with:
+
+    <?php
+    namespace Empathy\MVC\Controller;
+    use Laminas\Permissions\Acl\Resource\ResourceInterface;
+
+    class admin extends \Empathy\ELib\AdminController implements ResourceInterface
+    {
+        public function __construct($boot)
+        {
+            parent::__construct($boot, false);
+        }
+
+        public function getResourceId()
+        {
+            return 'admin-area';
+        }
+    }
+
+You may want to experiment at this point by trying different roles returned by `getResourceId()`.  For example if you use the role `public-api`, 
+a user can navigate to the admin portion of your app without logging in at all.
+
+NB:  All new classes that you create in the admin module should follow this structure and be secured with your desired role.
 
 
 
