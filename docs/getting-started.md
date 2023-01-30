@@ -153,7 +153,11 @@ We need to tell the user service to secure `application/admin/admin.php` with th
 You may want to experiment at this point by trying different roles returned by `getResourceId()`.  For example if you use the role `public-api`, 
 a user can navigate to the admin portion of your app without logging in at all.
 
-NB:  All new classes that you create in the admin module should follow this structure and be secured with your desired role.
+NB:  All new classes that you create in the admin module should follow this structure and be secured with your desired role(s).
+
+NB:  If you fail to do this step, you will notice that the admin area authorisation will behave as you expect if you log in with the `mikejw` account as this user has an auth level 2 in the `inserts.sql` fixture data.
+
+
 
 
 
