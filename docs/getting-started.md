@@ -59,7 +59,6 @@ configuration will look like the following (for the roles and users inserted int
 
 
     <?php
-    
     use Laminas\Permissions\Acl\Acl;
     use Laminas\Permissions\Acl\Role\GenericRole as Role;
     use Laminas\Permissions\Acl\Resource\GenericResource as Resource;
@@ -107,6 +106,29 @@ Create an arbitrary secret in `elib.yml` used for JWT encyption/decyption:
 
     ---
     jwt_secret: my_super_secret_key
+
+
+
+(Optional) Force vanilla validation for login
+---
+The user controller for login can use the default user model for validation instead of the new one provided by ELib-ACL.  
+This means usernames can be used to log into the site backend admin area instead of having to provide an email address.
+
+Do so by overwriting `application/user/user.php` with:
+ 
+    <?php
+    namespace Empathy\MVC\Controller;
+
+    class user extends \Empathy\ELib\User\Controller
+    {
+        public function login()
+        {
+            $this->userModel = 'UserItem';
+            parent::login();
+        }    
+    }
+
+
 
 
 
