@@ -158,7 +158,7 @@ NB:  All new classes that you create in the admin module should follow this stru
 NB:  If you fail to do this step, you will notice that the admin area authorisation will behave as you expect if you log in with the `mikejw` account as this user has an auth level 2 in the `inserts.sql` fixture data.
 
 
-
+More info coming soon!
 
 
 
