@@ -111,7 +111,7 @@ Create an arbitrary secret in `elib.yml` used for JWT encyption/decyption:
 
 (Optional) Force vanilla validation for login
 ---
-The user controller for login (at the "/user/login" route) can use the default user model for validation instead of the new one provided by ELib-ACL.  
+The user controller for login (at the `/user/login` route) can use the default user model for validation instead of the new one provided by ELib-ACL.  
 This means usernames can be used to log into the site backend admin area instead of having to provide an email address.
 
 Do so by overwriting `application/user/user.php` with:
@@ -131,7 +131,7 @@ Do so by overwriting `application/user/user.php` with:
 
 Secure admin module with admin role
 ---
-We need to tell the user service to secure `application/admin/admin.php` with the admin role.  This is achieved by overwriting with:
+We need to tell the user service to secure `application/admin/admin.php` (routes under `/admin`) with the admin role.  This is achieved by overwriting with:
 
     <?php
     namespace Empathy\MVC\Controller;
