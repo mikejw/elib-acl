@@ -158,13 +158,60 @@ NB:  All new classes that you create in the admin module should follow this stru
 NB:  If you fail to do this step, you will notice that the admin area authorisation will behave as you expect if you log in with the `mikejw` account as this user has an auth level 2 in the `inserts.sql` fixture data.
 
 
+Generate/configure default public api module
+---
+
+Run the following to generate the module and controller.
+
+    php ./vendor/bin/empathy --inst_mod
+    
+    
+Configure the JSON View plugin for the module in `config.yml`:
+
+    plugins:
+      -
+        name: JSONView
+        version: 1.0
+        config: |
+          [
+            { "api": { "pretty_print": true } }
+          ]
+
+Now you should a dummy response from the api module if you navigate your browser to `/api`:
+
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+
+
+If you want to override this, simply add the `default_event` (action) function to the generated class:
+
+    <?php
+    namespace Empathy\MVC\Controller;
+
+    class api extends \Empathy\ELib\ApiController
+    {
+         public function default_event()
+        {
+            $data = new \stdClass();
+            $data->name = "My super cool api";
+            $data->version = "1.0";
+            $this->assign('default', $data, true);
+        }
+    }
+
+Returns:
+
+    {
+      "name": "My super cool api",
+      "version": "1.0"
+    }
+
+
+
 More info coming soon!
-
-
-
-
-
-
-
-
 
