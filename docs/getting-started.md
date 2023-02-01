@@ -188,7 +188,7 @@ Now you should a dummy response from the api module if you navigate your browser
     ]
 
 
-If you want to override this, simply add the `default_event` (action) function to the generated class:
+If you want to override this, simply add the `default_event` (action) function to the generated class `/application/api/api.php`:
 
     <?php
     namespace Empathy\MVC\Controller;
