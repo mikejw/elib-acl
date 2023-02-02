@@ -8,4 +8,5 @@ namespace Empathy\ELib\MVC\Plugin;
 final class AclAnnotation
 {
     public $permissions;
+    public $method;
 }

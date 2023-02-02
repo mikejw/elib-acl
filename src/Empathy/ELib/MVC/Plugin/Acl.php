@@ -29,6 +29,7 @@ class Acl extends Plugin implements PreEvent
     {
         $controller = $this->bootstrap->getController();
         $class = get_class($controller);
+        $allowed = false;
 
         // don't run when running internal action
         if ($class !== 'Empathy\MVC\Controller') {
@@ -37,7 +38,6 @@ class Acl extends Plugin implements PreEvent
             if (in_array('Laminas\Permissions\Acl\Resource\ResourceInterface', $r->getInterfaceNames())) {
                 $acl = DI::getContainer()->get('Acl');
                 DI::getContainer()->get('CurrentUser')->detectUser();                
-                $allowed = false;
                 if (DI::getContainer()->get('CurrentUser')->loggedIn()) {
                     $user = DI::getContainer()->get('CurrentUser')->getUser();                           
                     $r = Model::load('UserRole');
@@ -53,17 +53,17 @@ class Acl extends Plugin implements PreEvent
                     }
                 }
 
-                if (!$allowed) {
-                    // check individual permissions                
-                    AnnotationRegistry::registerLoader('class_exists');
-                    $reflectionClass = new \ReflectionClass($class);
-                    $property = $reflectionClass->getMethod($controller->getEvent());
-                    $reader = new AnnotationReader();
-                    $annotation = $reader->getMethodAnnotation(
-                        $property,
-                        AclAnnotation::class
-                    );
+                AnnotationRegistry::registerLoader('class_exists');
+                $reflectionClass = new \ReflectionClass($class);
+                $property = $reflectionClass->getMethod($controller->getEvent());
+                $reader = new AnnotationReader();
+                $annotation = $reader->getMethodAnnotation(
+                    $property,
+                    AclAnnotation::class
+                );
 
+                if (!$allowed) {
+                    // check individual permissions               
                     if ($annotation && sizeof($annotation->permissions)) {
                         foreach ($annotation->permissions as $perm) {
                             foreach ($roles as $role) {
@@ -73,15 +73,20 @@ class Acl extends Plugin implements PreEvent
                                 }
                             }                 
                         }    
-                    }
+                    }                    
                                         
                 }
+            }
 
-                if (!$allowed) {
-                    throw new RequestException('Denied', RequestException::NOT_AUTHORIZED);
+            if ($annotation && isset($annotation->method)) {
+                if ($_SERVER['REQUEST_METHOD'] !== $annotation->method) {
+                    throw new RequestException('Method Not Allowed', RequestException::METHOD_NOT_ALLOWED);
                 }
             }
-        }
 
+            if (!$allowed) {
+                throw new RequestException('Denied', RequestException::NOT_AUTHORIZED);
+            }
+        }
     }
 }
