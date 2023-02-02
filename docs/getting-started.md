@@ -190,19 +190,27 @@ Now you should a dummy response from the api module if you navigate your browser
 
 If you want to override this, simply add the `default_event` (action) function to the generated class `/application/api/api.php`:
 
+
     <?php
     namespace Empathy\MVC\Controller;
+    use Empathy\ELib\MVC\Plugin\AclAnnotation;
 
     class api extends \Empathy\ELib\ApiController
     {
+
+        /**
+         * @AclAnnotation(method="GET")
+         *
+         */
          public function default_event()
-         {
+        {
             $data = new \stdClass();
             $data->name = "My super cool api";
             $data->version = "1.0";
             $this->assign('default', $data, true);
         }
     }
+
 
 Returns:
 
