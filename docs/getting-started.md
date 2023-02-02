@@ -161,9 +161,9 @@ NB:  If you fail to do this step, you will notice that the admin area authorisat
 Generate/configure default public api module
 ---
 
-Run the following to generate the module and controller.
+Run the following to generate the module directory and controller class file.
 
-    php ./vendor/bin/empathy --inst_mod
+    php ./vendor/bin/empathy --inst_mod api
     
     
 Configure the JSON View plugin for the module in `config.yml`:
