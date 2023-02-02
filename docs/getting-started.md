@@ -196,7 +196,7 @@ If you want to override this, simply add the `default_event` (action) function t
     class api extends \Empathy\ELib\ApiController
     {
          public function default_event()
-        {
+         {
             $data = new \stdClass();
             $data->name = "My super cool api";
             $data->version = "1.0";
