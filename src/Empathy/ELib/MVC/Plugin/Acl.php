@@ -76,16 +76,16 @@ class Acl extends Plugin implements PreEvent
                     }                    
                                         
                 }
-            }
 
-            if ($annotation && isset($annotation->method)) {
-                if ($_SERVER['REQUEST_METHOD'] !== $annotation->method) {
-                    throw new RequestException('Method Not Allowed', RequestException::METHOD_NOT_ALLOWED);
+                if (!$allowed) {
+                    throw new RequestException('Denied', RequestException::NOT_AUTHORIZED);
                 }
             }
 
-            if (!$allowed) {
-                throw new RequestException('Denied', RequestException::NOT_AUTHORIZED);
+            if (isset($annotation) && isset($annotation->method)) {
+                if ($_SERVER['REQUEST_METHOD'] !== $annotation->method) {
+                    throw new RequestException('Method Not Allowed', RequestException::METHOD_NOT_ALLOWED);
+                }
             }
         }
     }
