@@ -197,7 +197,6 @@ If you want to override this, simply add the `default_event` (action) function t
 
     class api extends \Empathy\ELib\ApiController
     {
-
         /**
          * @AclAnnotation(method="GET")
          *
