@@ -47,7 +47,7 @@ Add the plugin to your `config.yml` file:
 
     plugins:
       - 
-        name: Empathy\Elib\MVC\Plugin\Acl
+        name: Empathy\ELib\MVC\Plugin\Acl
         version: 1.0
 
 
