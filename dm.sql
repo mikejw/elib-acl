@@ -12,7 +12,7 @@ NULL, 'admin'
 
 
 INSERT INTO user VALUES(
-NULL, 'chad@smith.com', 0, 'chad', '$2y$10$mwCpA3.uIv.ZICeUA/gvGOmzNlNIHBmFFNh3tqLQqjT0BRT6EXJDC',
+NULL, 'chad@smith.com', 0, 'chad', '$2y$10$0VwrIiRDLdYg2Oyz0HSnP.H6Zxnf2KtOulNrS.AXyK3PpyTJnXwe2',
 '', 1, NOW(), NOW(), 'Chad Smith', NULL, NULL
 );
 
@@ -21,7 +21,7 @@ NULL, 1, 1
 );
 
 INSERT INTO user VALUES(
-NULL, 'money@bags.com', 0, 'money', '$2y$10$mwCpA3.uIv.ZICeUA/gvGOmzNlNIHBmFFNh3tqLQqjT0BRT6EXJDC',
+NULL, 'money@bags.com', 0, 'money', '$2y$10$0VwrIiRDLdYg2Oyz0HSnP.H6Zxnf2KtOulNrS.AXyK3PpyTJnXwe2',
 '', 1, NOW(), NOW(), 'Money Bags', NULL, NULL
 );
 
@@ -31,7 +31,7 @@ NULL, 2, 2
 
 
 INSERT INTO user VALUES(
-NULL, 'mail@mikejw.co.uk', 2, 'mikejw', '$2y$10$mwCpA3.uIv.ZICeUA/gvGOmzNlNIHBmFFNh3tqLQqjT0BRT6EXJDC',
+NULL, 'mail@mikejw.co.uk', 2, 'mikejw', '$2y$10$0VwrIiRDLdYg2Oyz0HSnP.H6Zxnf2KtOulNrS.AXyK3PpyTJnXwe2',
 '', 1, NOW(), NOW(), 'Mike Whiting', NULL, NULL
 );
 
