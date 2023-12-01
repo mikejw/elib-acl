@@ -37,7 +37,7 @@ class Acl extends Plugin implements PreEvent
             $r = new \ReflectionClass($class);
             if (in_array('Laminas\Permissions\Acl\Resource\ResourceInterface', $r->getInterfaceNames())) {
                 $acl = DI::getContainer()->get('Acl');
-                DI::getContainer()->get('CurrentUser')->detectUser();                
+                DI::getContainer()->get('CurrentUser')->detectUser($controller);
                 if (DI::getContainer()->get('CurrentUser')->loggedIn()) {
                     $user = DI::getContainer()->get('CurrentUser')->getUser();                           
                     $r = Model::load('UserRole');
@@ -45,7 +45,7 @@ class Acl extends Plugin implements PreEvent
                 } else {
                     $roles = ['guest'];
                 }
-                    
+
                 foreach ($roles as $role) {
                     $allowed = $acl->isAllowed($role, $controller->getResourceId());
                     if ($allowed) {

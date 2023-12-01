@@ -11,6 +11,7 @@ use Empathy\MVC\Plugin\JSONView\EROb;
 use Empathy\MVC\Plugin\JSONView\ReturnCodes;
 use Empathy\MVC\Plugin\JSONView\ROb;
 use Empathy\MVC\RequestException;
+use Empathy\MVC\Session;
 
 
 class AclUser extends ECurrentUser {
@@ -128,7 +129,8 @@ class AclUser extends ECurrentUser {
         if (!$this->loggedIn()) {
             $token = DI::getContainer()->get('JWT')->tryAuthenticate();
             if ($token !== null && is_object($token) && isset($token->user_id)) {
-                parent::detectUser($c, $store_active, $token->user_id);
+                Session::set('user_id', $token->user_id);
+                parent::detectUser($c);
             }
         }
     }
