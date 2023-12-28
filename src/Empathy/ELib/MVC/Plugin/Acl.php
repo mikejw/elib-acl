@@ -63,9 +63,10 @@ class Acl extends Plugin implements PreEvent
                 );
 
                 if (!$allowed) {
-                    // check individual permissions               
-                    if ($annotation && sizeof($annotation->permissions)) {
-                        foreach ($annotation->permissions as $perm) {
+                    // check individual permissions
+                    $permissionos = $annotation->permissions ?? array();
+                    if ($annotation && sizeof($permissions)) {
+                        foreach ($permissions as $perm) {
                             foreach ($roles as $role) {
                                 if ($allowed = $acl->isAllowed($role, $controller->getResourceId(), $perm)) {
                                     $allowed = true;
