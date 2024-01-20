@@ -6,7 +6,7 @@
       "title": "Readme Doc"
     },
     {
-      "file": "getting-started.md",
+      "file": "./docs/getting-started.md",
       "title": "Getting Started"
     }
   ]
