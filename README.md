@@ -6,7 +6,7 @@ Empathy PHP Framework - ELib-ACL
 Licence
 ---
 Empathy and officially released extension libraries are now distributed under an
-MIT license.  See [LICENSE.txt](./LICENSE.txt).
+MIT license.  See [LICENSE](./LICENSE).
 
 ACL extension for Empathy apps using https://github.com/laminas/laminas-permissions-acl
 that provides scaffolding to create quick ACL “enabled” RESTful apis with JWT auth.
