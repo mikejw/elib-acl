@@ -14,12 +14,13 @@ Follow the instructions in the Empathy "getting-started.md" docs:
 
 Hower use the following `composer.json` configuration:
 
-    {
-        "require": {
-           "mikejw/elib-acl": "dev-main"
-        },
-        "minimum-stability": "dev"
-    }
+<pre><code class="lang-vim">{
+    "require": {
+       "mikejw/elib-acl": "dev-main"
+    },
+    "minimum-stability": "dev"
+}
+</code></pre>
 
 
 ELib-Base
@@ -31,12 +32,18 @@ However after completing the "Database setup" block, copy and paste the contents
 global `setup.sql` file after the existing `CREATE` statements.  Also append to the end of the `DROP`statment
 the new table names so that it looks like this:
 
-    DROP TABLE IF EXISTS user, contact, shippingaddr, role, role_user;    
+
+<pre><code class="lang-sql">DROP TABLE IF EXISTS user, contact, shippingaddr, role, role_user;
+</code></pre>
+
 
 Also use the contents of `dm.sql` for your `inserts.sql` file instead of the elib-base `dm.sql` file. 
 Don't forget to put he `USE` statement at the top of the file:
 
-    use project;
+
+<pre><code class="lang-sql">use project;
+</code></pre>
+
 
 Complete the rest of the steps the elib-base getting started doc.
 
@@ -45,10 +52,11 @@ Enable plugin
 ---
 Add the plugin to your `config.yml` file:
 
-    plugins:
-      - 
-        name: Empathy\ELib\MVC\Plugin\Acl
-        version: 1.0
+<pre><code class="lang-yml">plugins:
+  - 
+    name: Empathy\ELib\MVC\Plugin\Acl
+    version: 1.0
+</code></pre>
 
 
 Services
@@ -57,46 +65,46 @@ Services
 Create a global `services.php` configuration file, which will make ACL definitions availalbe in your app.  The default
 configuration will look like the following (for the roles and users inserted into the database above):
 
+<pre><code class="lang-php">&lt;?php
+use Laminas\Permissions\Acl\Acl;
+use Laminas\Permissions\Acl\Role\GenericRole as Role;
+use Laminas\Permissions\Acl\Resource\GenericResource as Resource;
+use Empathy\ELib\User\AclUser;
 
-    <?php
-    use Laminas\Permissions\Acl\Acl;
-    use Laminas\Permissions\Acl\Role\GenericRole as Role;
-    use Laminas\Permissions\Acl\Resource\GenericResource as Resource;
-    use Empathy\ELib\User\AclUser;
+return [
+    'Acl' => function(\DI\Container $c) {
+        $acl = new Acl();
 
-    return [
-        'Acl' => function(\DI\Container $c) {
-            $acl = new Acl();
+        $guest = new Role('guest');
+        $free = new Role('free');
+        $paid = new Role('paid');
+        $admin = new Role('admin');
 
-            $guest = new Role('guest');
-            $free = new Role('free');
-            $paid = new Role('paid');
-            $admin = new Role('admin');
+        $acl->addRole($guest);
+        $acl->addRole($free, [$guest]);
+        $acl->addRole($paid, [$free]);
+        $acl->addRole($admin, [$paid]);
 
-            $acl->addRole($guest);
-            $acl->addRole($free, [$guest]);
-            $acl->addRole($paid, [$free]);
-            $acl->addRole($admin, [$paid]);
+        $acl->addResource(new Resource('public-api'));
+        $acl->addResource(new Resource('free-api'));
+        $acl->addResource(new Resource('paid-api'));
+        $acl->addResource(new Resource('admin-area'));
+        
+        $acl->allow($guest, 'public-api');
+        $acl->allow($free, 'free-api');        
+        $acl->allow($paid, 'paid-api');
+        $acl->allow($admin, 'admin-area');
 
-            $acl->addResource(new Resource('public-api'));
-            $acl->addResource(new Resource('free-api'));
-            $acl->addResource(new Resource('paid-api'));
-            $acl->addResource(new Resource('admin-area'));
-            
-            $acl->allow($guest, 'public-api');
-            $acl->allow($free, 'free-api');        
-            $acl->allow($paid, 'paid-api');
-            $acl->allow($admin, 'admin-area');
+        $acl->allow($guest, 'paid-api', 'view');
 
-            $acl->allow($guest, 'paid-api', 'view');
-
-            return $acl;
-        },
-        'UserModel' => 'MobileUserItem',
-        'CurrentUser' => function (\DI\Container $c) {
-            return new AclUser();
-        },
-    ];
+        return $acl;
+    },
+    'UserModel' => 'MobileUserItem',
+    'CurrentUser' => function (\DI\Container $c) {
+        return new AclUser();
+    },
+];
+</code></pre>
 
 
 JWT Config
@@ -104,8 +112,9 @@ JWT Config
 
 Create an arbitrary secret in `elib.yml` used for JWT encyption/decyption:
 
-    ---
-    jwt_secret: my_super_secret_key
+<pre><code class="lang-yml">---
+jwt_secret: my_super_secret_key
+</code></pre>
 
 
 
@@ -116,39 +125,43 @@ This means usernames can be used to log into the site backend admin area instead
 
 Do so by overwriting `application/user/user.php` with:
  
-    <?php
-    namespace Empathy\MVC\Controller;
 
-    class user extends \Empathy\ELib\User\Controller
+<pre><code class="lang-php">&lt;?php
+namespace Empathy\MVC\Controller;
+
+class user extends \Empathy\ELib\User\Controller
+{
+    public function login()
     {
-        public function login()
-        {
-            $this->userModel = 'UserItem';
-            parent::login();
-        }    
-    }
+        $this->userModel = 'UserItem';
+        parent::login();
+    }    
+}
+</code></pre>
 
 
 Secure admin module with admin role
 ---
 We need to tell the user service to secure `application/admin/admin.php` (routes under `/admin`) with the admin role.  This is achieved by overwriting with:
 
-    <?php
-    namespace Empathy\MVC\Controller;
-    use Laminas\Permissions\Acl\Resource\ResourceInterface;
+<pre><code class="lang-php">&lt;?php
 
-    class admin extends \Empathy\ELib\AdminController implements ResourceInterface
+namespace Empathy\MVC\Controller;
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
+
+class admin extends \Empathy\ELib\AdminController implements ResourceInterface
+{
+    public function __construct($boot)
     {
-        public function __construct($boot)
-        {
-            parent::__construct($boot, false);
-        }
-
-        public function getResourceId()
-        {
-            return 'admin-area';
-        }
+        parent::__construct($boot, false);
     }
+
+    public function getResourceId()
+    {
+        return 'admin-area';
+    }
+}
+</code></pre>
 
 You may want to experiment at this point by trying different roles returned by `getResourceId()`.  For example if you use the role `public-api`, 
 a user can navigate to the admin portion of your app without logging in at all.
@@ -163,60 +176,65 @@ Generate/configure default public api module
 
 Run the following to generate the module directory and controller class file.
 
-    php ./vendor/bin/empathy --inst_mod api
-    
-    
+<pre><code class="lang-bash">php ./vendor/bin/empathy --inst_mod api
+</code></pre>
+
+
 Configure the JSON View plugin for the module in `config.yml`:
 
-    plugins:
-      -
-        name: JSONView
-        version: 1.0
-        config: |
-          [
-            { "api": { "pretty_print": true } }
-          ]
+<pre><code class="lang-yml">plugins:
+  -
+    name: JSONView
+    version: 1.0
+    config: |
+      [
+        { "api": { "pretty_print": true } }
+      ]
+</code></pre>      
 
 Now you should a dummy response from the api module if you navigate your browser to `/api`:
 
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
+
+<pre><code class="lang-json">[
+  1,
+  2,
+  3,
+  4,
+  5
+]
+</code></pre>
 
 
 If you want to override this, simply add the `default_event` (action) function to the generated class `/application/api/api.php`:
 
+<pre><code class="lang-php">&lt;?php
+namespace Empathy\MVC\Controller;
+use Empathy\ELib\MVC\Plugin\AclAnnotation;
 
-    <?php
-    namespace Empathy\MVC\Controller;
-    use Empathy\ELib\MVC\Plugin\AclAnnotation;
-
-    class api extends \Empathy\ELib\ApiController
+class api extends \Empathy\ELib\ApiController
+{
+    /**
+     * @AclAnnotation(method="GET")
+     *
+     */
+     public function default_event()
     {
-        /**
-         * @AclAnnotation(method="GET")
-         *
-         */
-         public function default_event()
-        {
-            $data = new \stdClass();
-            $data->name = "My super cool api";
-            $data->version = "1.0";
-            $this->assign('default', $data, true);
-        }
+        $data = new \stdClass();
+        $data->name = "My super cool api";
+        $data->version = "1.0";
+        $this->assign('default', $data, true);
     }
+}
+</code></pre>
 
 
 Returns:
 
-    {
-      "name": "My super cool api",
-      "version": "1.0"
-    }
+<pre><code class="lang-json">{
+  "name": "My super cool api",
+  "version": "1.0"
+}
+</code></pre>
 
 
 
