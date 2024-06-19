@@ -20,7 +20,6 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
  * @license         See LICENCE
  *
  * (c) copyright Mike Whiting
-
  * with this source code in the file licence.txt
  */
 class Acl extends Plugin implements PreEvent
