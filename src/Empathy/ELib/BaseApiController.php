@@ -11,5 +11,7 @@ class BaseApiController extends CustomController
     {
         parent::__construct($boot, false);
         Testable::header('Access-Control-Allow-Headers: Origin,Content-Type,X-Auth-Token,Accept,Authorization,X-Request-With');
+        // @TODO: make configurable:
+        // Testable::header('Access-Control-Allow-Origin: *');
     }
 }
