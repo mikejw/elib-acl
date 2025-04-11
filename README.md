@@ -13,6 +13,6 @@ See [getting-started.md](./docs/getting-started.md) for project setup/configurat
 
 Licence
 ---
-Distributed under an Artistic License.
+Distributed under an MIT License.
 See [LICENSE](./LICENSE).
 
