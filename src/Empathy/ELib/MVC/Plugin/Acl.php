@@ -16,17 +16,17 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
  * Empathy Acl Plugin
  * @file            Empathy/MVC/Plugin/Acl.php
  * @description
- * @author          Mike Whiting
+ * @author          Michael J. Whiting
  * @license         See LICENCE
  *
- * (c) copyright Mike Whiting
- * with this source code in the file licence.txt
+ * (c) copyright Michael J. Whiting
+ * with this source code in the file LICENSE
  */
 class Acl extends Plugin implements PreEvent
 {
     public function onPreEvent()
     {
-        $controller = $this->bootstrap->getController();
+        $controller = DI::getContainer()->get('Controller');
         $class = get_class($controller);
         $allowed = false;
 
