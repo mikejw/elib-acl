@@ -74,7 +74,7 @@ class AclUser extends ECurrentUser {
                 $legacyUser->id = $legacyUser->getUserByUsername($data['username']);
 
                 if ($legacyUser->id > 0) {
-                    $legacyUser->load();
+                    $legacyUser->load($legacyUser->id);
                     list($errors, $user) = DI::getContainer()
                         ->get('CurrentUser')
                         ->doLogin($legacyUser->email, $data['password'], false);
@@ -105,7 +105,7 @@ class AclUser extends ECurrentUser {
             $ur = Model::load('UserRole');
             $ur->role_id = $r->getIdByName('free');
             $ur->user_id = $u->id;
-            $ur->insert(Model::getTable('UserRole'), true, array(), 0);
+            $ur->insert();
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -155,11 +155,11 @@ class AclUser extends ECurrentUser {
         if (count($errors) === 0 && $user->id === 0) {
             $errors['reg'] = 'Could not find user';
         } elseif (count($errors) < 1) {
-            $user->load();
+            $user->load($user->id);
             $user->active = 1;
             $user->activated = 'MYSQLTIME';
             $user->reg_code = null;
-            $user->save(Model::getTable('UserItem'), array(), 0);
+            $user->save();
             if ($this->postRegister($user)) {
                 $this->setUser($user);
                 $token = DI::getContainer()->get('JWT')->generate();
@@ -188,7 +188,7 @@ class AclUser extends ECurrentUser {
             $user->registered = 'MYSQLTIME';
             $user->auth = 0;
             $user->active = 0;
-            $user->id = $user->insert(Model::getTable('UserItem'), true, array(), Entity::SANITIZE_NO_POST);
+            $user->id = $user->insert();
             if (
                 ELibConfig::get('EMAIL_ORGANISATION') &&
                 ELibConfig::get('EMAIL_FROM')
