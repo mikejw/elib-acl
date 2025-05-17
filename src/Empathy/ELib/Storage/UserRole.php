@@ -12,16 +12,18 @@ class UserRole extends Entity
     public $role_id;
     public $user_id;
 
-
     public function getRoles($id)
     {
+        $table = $this::TABLE;
+        $params = [];
         $sql = 'select t1.name from ' . Model::getTable('Role') . ' t1,'
-            . ' ' . Model::getTable('UserRole') . ' t2'
-            . " where t2.user_id = '$id'"
+            . " $table t2"
+            . ' where t2.user_id = ?'
             . ' and t1.id = t2.role_id';
+        $params[] = $id;
 
-        $error = "Could not get user roles.";
-        $result = $this->query($sql, $error);
+        $error = 'Could not get user roles.';
+        $result = $this->query($sql, $error, $params);
         $roles = array();
         foreach ($result as $index => $row) {
             $roles[$index] = $row['name'];

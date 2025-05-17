@@ -2,10 +2,10 @@
 
 namespace Empathy\ELib;
 
-use Empathy\MVC\Controller\CustomController;
+use Empathy\ELib\EController;
 use Empathy\MVC\Testable;
 
-class BaseApiController extends CustomController
+class BaseApiController extends EController
 {
     public function __construct($boot)
     {

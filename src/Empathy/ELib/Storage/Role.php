@@ -13,12 +13,14 @@ class Role extends Entity
 
     public function getIdByName($name)
     {
+        $table = $this::TABLE;
+        $params = [];
         $id = 0;
-        $sql = 'select id from ' . Model::getTable('Role') . ' t1'
-            . " where name = '$name'";
-
-        $error = "Could not get role by name.";
-        $result = $this->query($sql, $error)->fetch();
+        $sql = "select id from $table t1"
+            . ' where name = ?';
+        $params[] = $name;
+        $error = 'Could not get role by name.';
+        $result = $this->query($sql, $error, $params)->fetch();
         if (isset($result['id']) && is_numeric($result['id'])) {
             $id = $result['id'];
         }

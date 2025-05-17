@@ -30,8 +30,7 @@ class AclUser extends ECurrentUser {
                 $data->token = $token;
                 $rob->setData($data);
             }
-            DI::getContainer()
-                ->get('Bootstrap')->getController()->assign('default', $rob, true);
+            DI::getContainer()->get('Controller')->assign('default', $rob, true);
         } else {
             throw new RequestException('Cannot confirm signup. Missing info?', RequestException::NOT_AUTHENTICATED);
         }
@@ -49,8 +48,7 @@ class AclUser extends ECurrentUser {
                 $rob = new ROb();
                 $rob->setData("Ok");
             }
-            DI::getContainer()
-                ->get('Bootstrap')->getController()->assign('default', $rob, true);
+            DI::getContainer()->get('Controller')->assign('default', $rob, true);
         } else {
             throw new RequestException('Cannot signup. Missing creds?', RequestException::NOT_AUTHENTICATED);
         }
@@ -91,8 +89,7 @@ class AclUser extends ECurrentUser {
                 $data->token = DI::getContainer()->get('JWT')->generate();
                 $rob->setData($data);
             }
-            DI::getContainer()
-                ->get('Bootstrap')->getController()->assign('default', $rob, true);
+            DI::getContainer()->get('Controller')->assign('default', $rob, true);
         } else {
             throw new RequestException('Cannot authenticate. Missing creds?', RequestException::NOT_AUTHENTICATED);
         }
@@ -204,19 +201,14 @@ class AclUser extends ECurrentUser {
 
                 $_POST['subject'] = "Registration with ".ELibConfig::get('EMAIL_ORGANISATION');
 
-                $smarty = new \Smarty();
-                $smarty->caching = false;
-
-                $smarty->template_dir = Config::get('DOC_ROOT')."/presentation";
-                $smarty->compile_dir = Config::get('DOC_ROOT')."/tpl/templates_c";
-                $smarty->cache_dir = Config::get('DOC_ROOT')."/tpl/cache";
-                $smarty->config_dir = Config::get('DOC_ROOT')."/tpl/configs";
+                $smartyPlugin = DI::getContainer()->get('PluginManager')->find(['SmartySSL', 'Smarty']);
+                $smarty = $smartyPlugin->getSmarty();
 
                 $smarty->assign('WEB_ROOT', Config::get('WEB_ROOT'));
                 $smarty->assign('PUBLIC_DIR', Config::get('PUBLIC_DIR'));
                 $smarty->assign('body', $_POST['body']);
                 $smarty->assign('reg', substr($user->reg_code, 0, 4));
-                $_POST['body'] = $smarty->fetch('email/confirm.tpl');
+                $_POST['body'] = $smarty->fetch('elib://email/confirm.tpl');
 
                 $_POST['first_name'] = 'Not provided';
                 $_POST['last_name'] = 'Not provided';

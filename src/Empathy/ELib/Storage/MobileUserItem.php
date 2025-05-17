@@ -15,34 +15,39 @@ class MobileUserItem extends UserItem
     
     public function getInactiveByEmail($email, $reg)
     {
+        $table = $this::TABLE;
+        $params = [];
         $user_id = 0;
-        $sql = 'SELECT id FROM '.Model::getTable('MobileUserItem')
-            .' WHERE (email = \''.$email.'\' and reg_code like \''.$reg.'%\')'
+        $sql = "SELECT id FROM $table"
+            .' WHERE (email = ? and reg_code like ?)'
             .' AND active = 0';
-        $error = "Could not inactive user by email.";
-        $result = $this->query($sql, $error);
+        $params[] = $email;
+        $params[] = $reg . '%';
+        $error = 'Could not inactive user by email.';
+        $result = $this->query($sql, $error, $params);
         $rows = $result->rowCount();
         if ($rows == 1) {
             $row = $result->fetch();
             $user_id = $row['id'];
         }
-        
         return $user_id ?? 0;
     }
 
     public function getUserByUsername($username)
     {
+        $table = $this::TABLE;
+        $params = [];
         $user_id = 0;
-        $sql = 'SELECT id FROM '.Model::getTable('MobileUserItem')
-            .' WHERE (username = \''.$username.'\' and active = 1)';
-        $error = "Could not get user by username.";
-        $result = $this->query($sql, $error);
+        $sql = "SELECT id FROM $table"
+            .' WHERE (username = ? and active = 1)';
+        $params[] = $username;
+        $error = 'Could not get user by username.';
+        $result = $this->query($sql, $error, $params);
         $rows = $result->rowCount();
         if ($rows == 1) {
             $row = $result->fetch();
             $user_id = $row['id'];
         }
-
         return $user_id ?? 0;
     }
 
