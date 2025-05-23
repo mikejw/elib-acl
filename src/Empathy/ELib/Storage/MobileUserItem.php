@@ -2,7 +2,7 @@
 
 namespace Empathy\ELib\Storage;
 use Empathy\MVC\Entity;
-use Empathy\ELib\Model;
+use Empathy\MVC\Model;
 use Empathy\MVC\Validate;
 use Empathy\ELib\Storage\UserItem;
 

@@ -2,7 +2,10 @@
 
 namespace Empathy\ELib\User;
 use Empathy\ELib\User\CurrentUser as ECurrentUser;
-use Empathy\ELib\Model;
+use Empathy\MVC\Model;
+use Empathy\ELib\Storage\MobileUserItem;
+use Empathy\ELib\Storage\Role;
+use Empathy\ELib\Storage\UserRole;
 use Empathy\MVC\DI;
 use Empathy\MVC\Entity;
 use Empathy\MVC\Config;
@@ -68,7 +71,7 @@ class AclUser extends ECurrentUser {
                 $errors['email'] == 'Invalid email' &&
                 preg_match('/^\w{1,15}$/', $data['username'])
             ) {
-                $legacyUser = Model::load('MobileUserItem');
+                $legacyUser = Model::load(MobileUserItem::class);
                 $legacyUser->id = $legacyUser->getUserByUsername($data['username']);
 
                 if ($legacyUser->id > 0) {
@@ -98,8 +101,8 @@ class AclUser extends ECurrentUser {
     protected function postRegister($u)
     {
         try {
-            $r = Model::load('Role');
-            $ur = Model::load('UserRole');
+            $r = Model::load(Role::class);
+            $ur = Model::load(UserRole::class);
             $ur->role_id = $r->getIdByName('free');
             $ur->user_id = $u->id;
             $ur->insert();
@@ -111,7 +114,7 @@ class AclUser extends ECurrentUser {
 
     public function isAdmin($user)
     {
-        $r = Model::load('UserRole');
+        $r = Model::load(UserRole::class);
         $roles = $r->getRoles($user->id);
         if (in_array('admin', $roles)) {
             return true;
@@ -136,7 +139,7 @@ class AclUser extends ECurrentUser {
     {
         $errors = array();
         $token = '';
-        $user = Model::load('MobileUserItem');
+        $user = Model::load(MobileUserItem::class);
 
         $user->email = $email;
         $user->reg_code = $reg;
@@ -171,7 +174,7 @@ class AclUser extends ECurrentUser {
 
     public function doMobileSignup($email, $password)
     {
-        $user = Model::load('MobileUserItem');
+        $user = Model::load(MobileUserItem::class);
         $user->email = $email;
         $user->username = $email;
         $user->password = $password;

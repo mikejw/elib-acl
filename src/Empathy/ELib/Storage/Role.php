@@ -2,7 +2,7 @@
 
 namespace Empathy\ELib\Storage;
 use Empathy\MVC\Entity as Entity;
-use Empathy\ELib\Model;
+use Empathy\MVC\Model;
 
 class Role extends Entity
 {

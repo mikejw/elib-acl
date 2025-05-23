@@ -2,7 +2,8 @@
 
 namespace Empathy\ELib\Storage;
 use Empathy\MVC\Entity as Entity;
-use Empathy\ELib\Model;
+use Empathy\MVC\Model;
+use Empathy\ELib\Storage\Role;
 
 class UserRole extends Entity
 {
@@ -16,7 +17,7 @@ class UserRole extends Entity
     {
         $table = $this::TABLE;
         $params = [];
-        $sql = 'select t1.name from ' . Model::getTable('Role') . ' t1,'
+        $sql = 'select t1.name from ' . Model::getTable(Role::class) . ' t1,'
             . " $table t2"
             . ' where t2.user_id = ?'
             . ' and t1.id = t2.role_id';

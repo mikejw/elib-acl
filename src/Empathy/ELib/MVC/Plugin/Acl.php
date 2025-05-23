@@ -5,7 +5,8 @@ namespace Empathy\ELib\MVC\Plugin;
 use Empathy\MVC\Plugin\PreEvent;
 use Empathy\MVC\Plugin as Plugin;
 use Empathy\MVC\DI;
-use Empathy\ELib\Model;
+use Empathy\MVC\Model;
+use Empathy\ELib\Storage\UserRole;
 use Empathy\MVC\Testable;
 use Empathy\MVC\RequestException;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -39,7 +40,7 @@ class Acl extends Plugin implements PreEvent
                 DI::getContainer()->get('CurrentUser')->detectUser($controller);
                 if (DI::getContainer()->get('CurrentUser')->loggedIn()) {
                     $user = DI::getContainer()->get('CurrentUser')->getUser();                           
-                    $r = Model::load('UserRole');
+                    $r = Model::load(UserRole::class);
                     $roles = $r->getRoles($user->id);
                 } else {
                     $roles = ['guest'];
