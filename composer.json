@@ -14,7 +14,7 @@
     }
   ],
   "require": {
-    "mikejw/elib-base": "^3",
+    "mikejw/elib-base": "^4",
     "laminas/laminas-permissions-acl": "2.17.x",
     "doctrine/annotations": "1.14.x-dev",
     "mikejw/elib-jwt": "dev-master"
