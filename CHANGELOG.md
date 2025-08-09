@@ -2,6 +2,13 @@
 # Changelog
 
 
+## [4.0.1] - 2025-08-09
+
+### Fixed
+
+- Correct http header name
+
+
 ## [4.0.0] - 2025-05-28
 
 ### Changed
