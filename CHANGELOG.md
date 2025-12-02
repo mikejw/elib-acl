@@ -2,6 +2,13 @@
 # Changelog
 
 
+## [4.0.2] - 2025-12-02
+
+### Fixed
+
+- Improve 'mobile user' sign-up flow
+
+
 ## [4.0.1] - 2025-08-09
 
 ### Fixed

@@ -10,10 +10,13 @@
     <tr>
       <td style="border: 0px; width: 20%; background-color: grey;"></td>
       <td style="border: 0px; width: 60%; text-align: center; background-color: #ffffff;">
+        <!--
         <img 
           width="100%"
           style="border: 0; width: 300px; display: block; vertical-align: top; margin-left: auto; margin-right: auto;"
           src="https://{$WEB_ROOT}{$PUBLIC_DIR}/img/newlogo.jpg" 
           alt="Quick Canopy Logo"
         />
+        -->
+
         

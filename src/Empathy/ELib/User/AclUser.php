@@ -21,9 +21,12 @@ class AclUser extends ECurrentUser {
 
     public function apiConfirmSignup() 
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        $errors = [];
+        $input = json_decode(file_get_contents('php://input'), true);
+        $data['email'] = $input['email'] ?? $_POST['email'];
+        $data['reg'] = $input['reg'] ?? $_POST['reg'];
         if (isset($data['email']) && isset($data['reg'])) {
-            list($errors, $token) = $this->doConfirmMobileSignup($data['email'], $data['reg']);
+            list($errors, $token, $user) = $this->doConfirmMobileSignup($data['email'], $data['reg']);
 
             if (sizeof($errors)) {
                 $rob = new EROb(ReturnCodes::Bad_Request, $errors);
@@ -37,11 +40,17 @@ class AclUser extends ECurrentUser {
         } else {
             throw new RequestException('Cannot confirm signup. Missing info?', RequestException::NOT_AUTHENTICATED);
         }
+
+        return [$errors, $user];
     }
 
     public function apiSignup()
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        $errors = [];
+        $input = json_decode(file_get_contents('php://input'), true);
+        $data['email'] = $input['email'] ?? $_POST['email'];
+        $data['password'] = $input['password'] ?? $_POST['password'];
+
         if (isset($data['email']) && isset($data['password'])) {
             list($errors, $user) = $this->doMobileSignup($data['email'], $data['password']);
 
@@ -55,6 +64,7 @@ class AclUser extends ECurrentUser {
         } else {
             throw new RequestException('Cannot signup. Missing creds?', RequestException::NOT_AUTHENTICATED);
         }
+        return $errors;
     }
 
     public function apiLogin()
@@ -167,7 +177,8 @@ class AclUser extends ECurrentUser {
         }
         return [
             $errors,
-            $token
+            $token,
+            $user
         ];
     }
 
@@ -195,7 +206,8 @@ class AclUser extends ECurrentUser {
             ) {
                 $_POST['body'] = "\nHi ___,\n\n"
                     . "Thanks for registering with " . ELibConfig::get('EMAIL_ORGANISATION') . "\n\nBefore you"
-                    . " can log in, please confirm your email address by entering the following code into the app."
+                    . " can log in, please confirm your email address by entering the following code into the "
+                    . " <a href=\"http://" . Config::get('WEB_ROOT') . Config::get('PUBLIC_DIR') . "/user/confirm\">app</a>."
                     . "\n\nCheers\n\n";
                 if ($user->fullname === 'Not provided Not provided') {
                     $_POST['body'] = str_replace('Hi ___,', 'Hi,', $_POST['body']);
