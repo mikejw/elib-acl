@@ -8,7 +8,7 @@ class Role extends Entity
 {
     const TABLE = 'role';
 
-    public $id;
+    public int $id;
     public $name;
 
     public function getIdByName($name)

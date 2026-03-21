@@ -25,7 +25,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
  */
 class Acl extends Plugin implements PreEvent
 {
-    public function onPreEvent()
+    public function onPreEvent(): void
     {
         $controller = DI::getContainer()->get('Controller');
         $class = get_class($controller);

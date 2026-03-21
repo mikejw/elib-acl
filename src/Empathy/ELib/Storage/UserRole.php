@@ -9,7 +9,7 @@ class UserRole extends Entity
 {
     const TABLE = 'role_user';
 
-    public $id;
+    public int $id;
     public $role_id;
     public $user_id;
 
