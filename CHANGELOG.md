@@ -2,6 +2,13 @@
 # Changelog
 
 
+## [4.0.4] - 2026-04-01
+
+### Fixed
+
+- Add more types etc
+
+
 ## [4.0.3] - 2026-03-22
 
 ### Fixed

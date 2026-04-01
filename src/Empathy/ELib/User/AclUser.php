@@ -15,11 +15,12 @@ use Empathy\MVC\Plugin\JSONView\ReturnCodes;
 use Empathy\MVC\Plugin\JSONView\ROb;
 use Empathy\MVC\RequestException;
 use Empathy\MVC\Session;
+use Empathy\ELib\Storage\UserItem;
 
 
 class AclUser extends ECurrentUser {
 
-    public function apiConfirmSignup() 
+    public function apiConfirmSignup()
     {
         $errors = [];
         $input = json_decode(file_get_contents('php://input'), true);
@@ -108,7 +109,7 @@ class AclUser extends ECurrentUser {
         }
     }
 
-    protected function postRegister($u)
+    protected function postRegister(UserItem $u): bool
     {
         try {
             $r = Model::load(Role::class);
@@ -122,7 +123,7 @@ class AclUser extends ECurrentUser {
         return true;
     }
 
-    public function isAdmin($user)
+    public function isAdmin(UserItem $user): bool
     {
         $r = Model::load(UserRole::class);
         $roles = $r->getRoles($user->id);
@@ -133,10 +134,10 @@ class AclUser extends ECurrentUser {
         }
     }
 
-    public function detectUser($c = NULL, $store_active = false, $user_id = null)
+    public function detectUser(mixed $c = NULL, $store_active = false, $user_id = null): void
     {
         parent::detectUser($c, $store_active, $user_id);
-        if (!$this->loggedIn()) {
+        if (!$this->isLoggedIn()) {
             $token = DI::getContainer()->get('JWT')->tryAuthenticate();
             if ($token !== null && is_object($token) && isset($token->user_id)) {
                 Session::set('user_id', $token->user_id);

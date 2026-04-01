@@ -1,18 +1,17 @@
 <?php
 
 namespace Empathy\ELib\Storage;
+use Empathy\ELib\Storage\UserItem;
 use Empathy\MVC\Entity;
 use Empathy\MVC\Model;
 use Empathy\MVC\Validate;
-use Empathy\ELib\Storage\UserItem;
-
 
 
 class MobileUserItem extends UserItem
 {
     const REG_LENGTH = 4;
-    
-    
+
+
     public function getInactiveByEmail($email, $reg)
     {
         $table = $this::TABLE;
@@ -51,7 +50,7 @@ class MobileUserItem extends UserItem
         return $user_id ?? 0;
     }
 
-    public function validates($email_check=true)
+    public function validates(bool $email_check=true): void
     {
         if ($this->doValType(Validate::EMAIL, 'email', $this->email, false)) {
             if ($email_check) {
@@ -63,22 +62,22 @@ class MobileUserItem extends UserItem
         $this->validatePassword();
     }
 
-    public function validateLogin()
+    public function validateLogin(): void
     {
         $this->doValType(Validate::EMAIL, 'email', $this->username, false);
         $this->doValType(Validate::PASSWORD, 'password', $this->password, false);
     }
 
 
-    public function validatePassword()
+    public function validatePassword(): void
     {
         $this->doValType(
             Validate::PASSWORD, 'password', $this->password, false,
             'Password not strong. Include uppercase and lowercase letters,'
-                .' numbers and special characters'
+            .' numbers and special characters'
         );
     }
-    
+
     public function validateConfirmReg()
     {
         $this->doValType(Validate::EMAIL, 'email', $this->email, false);
